@@ -99,39 +99,8 @@
 
 <script>
 
-async function verifyClaim() {
-
-  const claim = document.getElementById("claim").value;
-  const sourceA = document.getElementById("sourceA").value;
-  const sourceB = document.getElementById("sourceB").value;
-
-  const result = document.getElementById("result");
-
-  if (!claim) {
-    result.textContent = "Please enter a claim.";
-    return;
-  }
-
-  result.textContent = "Preparing verification...";
-
-  /*
-    GenLayer contract:
-    0x7c...2715
-
-    The final application integration will call
-    the deployed TruthCheck contract's verify_claim method.
-  */
-
-  result.textContent =
-    "Claim submitted to TruthCheck.\n\n" +
-    "Claim: " + claim + "\n\n" +
-    "Sources:\n" +
-    sourceA + "\n" +
-    sourceB + "\n\n" +
-    "GenLayer contract: TruthCheck";
-}
 
 </script>
-
+<script src="/app/app.js"></script>
 </body>
 </html>
