@@ -92,20 +92,28 @@
     </div>
   </div>
 
-  <script>
-    async function verifyClaim() {
-      const result = document.getElementById("result");
+    <script>
+  async function verifyClaim() {
+    const claim = document.getElementById("claim").value;
+    const sourceA = document.getElementById("sourceA").value;
+    const sourceB = document.getElementById("sourceB").value;
+    const result = document.getElementById("result");
 
-      result.textContent =
-        "This interface is connected to the GenLayer Consensus Verifier contract.";
-
-      // Contract:
-      // 0x7cFBC976d79Ce4eA25D008ECb8572C1943572715
-
-      console.log("Claim:", document.getElementById("claim").value);
-      console.log("Source A:", document.getElementById("sourceA").value);
-      console.log("Source B:", document.getElementById("sourceB").value);
+    if (!claim.trim() || !sourceA.trim() || !sourceB.trim()) {
+      result.textContent = "Please fill in all fields.";
+      return;
     }
+
+    result.textContent = "Verification request prepared...";
+
+    console.log("Claim:", claim);
+    console.log("Source A:", sourceA);
+    console.log("Source B:", sourceB);
+    console.log(
+      "Contract:",
+      "0x7cFBC976d79Ce4eA25D008ECb8572C1943572715"
+    );
+  }
   </script>
 </body>
 </html>
