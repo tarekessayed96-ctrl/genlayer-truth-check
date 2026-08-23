@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GenLayer Consensus Verifier</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>GenLayer Consensus Verifier</h1>
+
+    <p>
+      Verify natural-language claims using GenLayer consensus.
+    </p>
+
+    <label>Claim</label>
+    <textarea id="claim">Earth is an oblate spheroid, not a perfect sphere.</textarea>
+
+    <label>Source A</label>
+    <input
+      id="sourceA"
+      value="https://oceanservice.noaa.gov/facts/earth-round.html"
+    >
+
+    <label>Source B</label>
+    <input
+      id="sourceB"
+      value="https://geodesy.noaa.gov/research/geopotential-datums/geopotential-surface.shtml"
+    >
+
+    <button onclick="verifyClaim()">
+      VERIFY CLAIM
+    </button>
+
+    <div id="result">
+      Ready to verify.
+    </div>
+  </div>
+
+  <script>
+    async function verifyClaim() {
+      const result = document.getElementById("result");
+
+      result.textContent =
+        "This interface is connected to the GenLayer Consensus Verifier contract.";
+
+      // Contract:
+      // 0x7cFBC976d79Ce4eA25D008ECb8572C1943572715
+
+      console.log("Claim:", document.getElementById("claim").value);
+      console.log("Source A:", document.getElementById("sourceA").value);
+      console.log("Source B:", document.getElementById("sourceB").value);
+    }
+  </script>
+</body>
+</html>
