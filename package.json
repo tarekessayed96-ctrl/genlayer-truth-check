@@ -2,7 +2,13 @@
   "name": "genlayer-truth-check",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
   "dependencies": {
-    "genlayer-js": "latest"
+    "genlayer-js": "^1.1.8",
+    "vite": "latest"
   }
 }
