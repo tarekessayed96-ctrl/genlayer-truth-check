@@ -1,0 +1,8 @@
+{
+  "name": "genlayer-truth-check",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "genlayer-js": "latest"
+  }
+}
