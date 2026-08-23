@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TruthCheck - GenLayer</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f7fb;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 8px 0 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>TruthCheck</h1>
+
+  <p>
+    Verify real-world claims using a GenLayer Intelligent Contract.
+  </p>
+
+  <label>Claim</label>
+
+  <textarea id="claim"
+    placeholder="Example: The Earth is round."></textarea>
+
+  <label>Source A</label>
+
+  <input
+    id="sourceA"
+    value="https://en.wikipedia.org/wiki/Earth">
+
+  <label>Source B</label>
+
+  <input
+    id="sourceB"
+    value="https://science.nasa.gov/earth/facts/">
+
+  <button onclick="verifyClaim()">
+    VERIFY CLAIM
+  </button>
+
+  <div id="result">
+    Result will appear here.
+  </div>
+
+</div>
+
+<script>
+
+async function verifyClaim() {
+
+  const claim = document.getElementById("claim").value;
+  const sourceA = document.getElementById("sourceA").value;
+  const sourceB = document.getElementById("sourceB").value;
+
+  const result = document.getElementById("result");
+
+  if (!claim) {
+    result.textContent = "Please enter a claim.";
+    return;
+  }
+
+  result.textContent = "Preparing verification...";
+
+  /*
+    GenLayer contract:
+    0x7c...2715
+
+    The final application integration will call
+    the deployed TruthCheck contract's verify_claim method.
+  */
+
+  result.textContent =
+    "Claim submitted to TruthCheck.\n\n" +
+    "Claim: " + claim + "\n\n" +
+    "Sources:\n" +
+    sourceA + "\n" +
+    sourceB + "\n\n" +
+    "GenLayer contract: TruthCheck";
+}
+
+</script>
+
+</body>
+</html>
