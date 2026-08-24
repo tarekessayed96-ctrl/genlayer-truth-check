@@ -33,7 +33,7 @@ async function verifyClaim() {
       account: walletAddress,
       provider: window.ethereum
     });
-    await client.connect("studionet");
+  
     result.textContent =
       "Submitting claim to GenLayer...\n\n" +
       "Please confirm the transaction in OKX Wallet.";
