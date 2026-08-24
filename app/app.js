@@ -48,10 +48,7 @@ async function verifyClaim() {
       "Transaction:\n" +
       txHash +
       "\n\nWaiting for GenLayer consensus...";
-    await client.waitForTransactionReceipt({
-      hash: txHash,
-      status: "ACCEPTED"
-    });
+  
     result.textContent =
       "Consensus accepted.\n\nReading result from GenLayer...";
     const data = await client.readContract({
