@@ -69,10 +69,11 @@ async function verifyClaim() {
       "\n\nWaiting for GenLayer transaction finality...";
 
     const receipt = await client.waitForTransactionReceipt({
-      hash: txHash,
-      status: "FINALIZED"
-    });
-
+  hash: txHash,
+  status: "FINALIZED",
+  interval: 5000,
+  retries: 200
+});
     if (
       receipt.txExecutionResultName &&
       receipt.txExecutionResultName !== "FINISHED_WITH_RETURN"
