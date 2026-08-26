@@ -1,5 +1,5 @@
 const CONTRACT_ADDRESS =
-  "0x7cFBC976d79Ce4eA25D008ECb8572C1943572715";
+  "0x8b48adc727596D0C80AC9Fc5F2d1e08b6c270CBc";
 
 async function verifyClaim() {
   const claim = document.getElementById("claim").value.trim();
