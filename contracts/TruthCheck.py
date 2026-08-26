@@ -6,21 +6,28 @@ import typing
 
 
 class TruthCheck(gl.Contract):
-        results: TreeMap[str, str]
+    last_claim: str
+    last_verdict: str
+    last_explanation: str
+    last_sources: str
 
     def __init__(self):
-    pass
+        pass
+
     @gl.public.write
     def verify_claim(
         self,
         claim: str,
         source_a: str,
         source_b: str,
-request_id: str
+        request_id: str
     ) -> typing.Any:
 
         if not claim.strip():
             raise gl.UserError("Claim cannot be empty")
+
+        if not request_id.strip():
+            raise gl.UserError("Request ID cannot be empty")
 
         if not source_a.startswith("https://"):
             raise gl.UserError("Source A must use HTTPS")
@@ -94,6 +101,8 @@ with the supplied sources and the agreed verdict.
         self.last_verdict = result["verdict"]
         self.last_explanation = result["explanation"]
         self.last_sources = json.dumps([source_a, source_b])
+
+        return result
 
     @gl.public.view
     def get_result(self) -> dict:
