@@ -1,6 +1,56 @@
 const CONTRACT_ADDRESS =
   "0x8b48adc727596D0C80AC9Fc5F2d1e08b6c270CBc";
 
+const STATUS_INTERVAL = 5000;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function waitUntilFinalized(client, txHash, result, requestId) {
+  while (true) {
+    const tx = await client.getTransaction({
+      hash: txHash
+    });
+
+    const status =
+      tx?.statusName ||
+      tx?.status ||
+      tx?.status_name ||
+      "UNKNOWN";
+
+    result.textContent =
+      "Verification submitted.\n\n" +
+      "Request ID:\n" +
+      requestId +
+      "\n\n" +
+      "Transaction:\n" +
+      txHash +
+      "\n\n" +
+      "Transaction status:\n" +
+      status +
+      "\n\n" +
+      "Waiting for finality...";
+
+    if (status === "FINALIZED") {
+      return tx;
+    }
+
+    if (
+      status === "CANCELED" ||
+      status === "UNDETERMINED" ||
+      status === "VALIDATORS_TIMEOUT" ||
+      status === "LEADER_TIMEOUT"
+    ) {
+      throw new Error(
+        "Transaction ended with status: " + status
+      );
+    }
+
+    await sleep(STATUS_INTERVAL);
+  }
+}
+
 async function verifyClaim() {
   const claim = document.getElementById("claim").value.trim();
   const sourceA = document.getElementById("sourceA").value.trim();
@@ -59,21 +109,20 @@ async function verifyClaim() {
       value: BigInt(0)
     });
 
-    result.textContent =
-      "Verification submitted.\n\n" +
-      "Request ID:\n" +
-      requestId +
-      "\n\n" +
-      "Transaction:\n" +
-      txHash +
-      "\n\nWaiting for GenLayer transaction finality...";
+    await waitUntilFinalized(
+      client,
+      txHash,
+      result,
+      requestId
+    );
 
     const receipt = await client.waitForTransactionReceipt({
-  hash: txHash,
-  status: "FINALIZED",
-  interval: 5000,
-  retries: 200
-});
+      hash: txHash,
+      status: "FINALIZED",
+      interval: 3000,
+      retries: 20
+    });
+
     if (
       receipt.txExecutionResultName &&
       receipt.txExecutionResultName !== "FINISHED_WITH_RETURN"
@@ -127,7 +176,9 @@ async function verifyClaim() {
       parsed.explanation +
       "\n\n" +
       "Sources:\n" +
-      (Array.isArray(sources) ? sources.join("\n") : sources) +
+      (Array.isArray(sources)
+        ? sources.join("\n")
+        : sources) +
       "\n\n" +
       "Transaction:\n" +
       txHash +
@@ -135,6 +186,7 @@ async function verifyClaim() {
       "Contract: " +
       CONTRACT_ADDRESS +
       "\nChain: 61999";
+
   } catch (error) {
     console.error(error);
 
