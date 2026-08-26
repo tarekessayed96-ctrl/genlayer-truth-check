@@ -6,13 +6,10 @@ import typing
 
 
 class TruthCheck(gl.Contract):
-    last_claim: str
-    last_verdict: str
-    last_explanation: str
-    last_sources: str
+    results: TreeMap[str, str]
 
     def __init__(self):
-        pass
+        self.results = TreeMap()
 
     @gl.public.write
     def verify_claim(
@@ -97,18 +94,24 @@ with the supplied sources and the agreed verdict.
 """
         )
 
-        self.last_claim = claim
-        self.last_verdict = result["verdict"]
-        self.last_explanation = result["explanation"]
-        self.last_sources = json.dumps([source_a, source_b])
+        stored_result = {
+            "request_id": request_id,
+            "claim": claim,
+            "verdict": result["verdict"],
+            "explanation": result["explanation"],
+            "sources": [source_a, source_b],
+        }
 
-        return result
+        self.results[request_id] = json.dumps(stored_result)
+
+        return stored_result
 
     @gl.public.view
-    def get_result(self) -> dict:
-        return {
-            "claim": self.last_claim,
-            "verdict": self.last_verdict,
-            "explanation": self.last_explanation,
-            "sources": self.last_sources,
-        }
+    def get_result(self, request_id: str) -> dict:
+        if not request_id.strip():
+            raise gl.UserError("Request ID cannot be empty")
+
+        if request_id not in self.results:
+            raise gl.UserError("No result found for this request ID")
+
+        return json.loads(self.results[request_id])
