@@ -6,23 +6,17 @@ import typing
 
 
 class TruthCheck(gl.Contract):
-    last_claim: str
-    last_verdict: str
-    last_explanation: str
-    last_sources: str
+        results: TreeMap[str, str]
 
     def __init__(self):
-        self.last_claim = ""
-        self.last_verdict = "NOT_CHECKED"
-        self.last_explanation = ""
-        self.last_sources = ""
-
+    pass
     @gl.public.write
     def verify_claim(
         self,
         claim: str,
         source_a: str,
-        source_b: str
+        source_b: str,
+request_id: str
     ) -> typing.Any:
 
         if not claim.strip():
